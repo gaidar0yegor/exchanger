@@ -21,8 +21,8 @@ A Telegram bot for exchanging cryptocurrencies and fiat currencies.
 3. Create a `.env` file with the following variables:
    ```
    BOT_TOKEN=your_telegram_bot_token
-   ADMIN_IDS=comma_separated_list_of_admin_ids
-   EXCHANGE_REQUEST_IDS=comma_separated_list_of_ids_to_receive_exchange_requests
+   ADMIN_ID=comma_separated_list_of_admin_ids
+   ANKET_SEND=comma_separated_list_of_ids_to_receive_exchange_requests
    SUPPORT_LINK=https://t.me/your_support_username
    SUBSCRIPTION_LINK=https://t.me/your_channel_username
    ```
@@ -76,3 +76,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Author
 
 Developed by: @crypto_exchange_dev
+
+## Deployment
+
+This bot can be deployed on Railway using the provided railway.json and Procfile.
