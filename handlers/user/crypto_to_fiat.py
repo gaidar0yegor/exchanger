@@ -31,7 +31,7 @@ async def crypto_to_fiat_handler(call: types.CallbackQuery):
     
     # Show cryptocurrency selection keyboard
     await call.message.edit_text(
-        "Select the cryptocurrency you want to exchange:",
+        "Выберите криптовалюту, которую Вы хотите обменять:",
         reply_markup=inline.currency_selection_keyboard(cryptocurrencies, 'crypto')
     )
     await call.answer()
