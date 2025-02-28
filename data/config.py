@@ -8,10 +8,10 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # Admin IDs - comma-separated list of admin user IDs
-ADMIN_IDS = [int(id) for id in os.getenv('ADMIN_IDS', '').split(',') if id]
+ADMIN_IDS = [int(id) for id in os.getenv('ADMIN_ID', '').split(',') if id]
 
 # IDs to receive exchange requests
-EXCHANGE_REQUEST_IDS = [int(id) for id in os.getenv('EXCHANGE_REQUEST_IDS', '').split(',') if id]
+EXCHANGE_REQUEST_IDS = [int(id) for id in os.getenv('ANKET_SEND', '').split(',') if id]
 
 # Support and subscription links
 SUPPORT_LINK = os.getenv('SUPPORT_LINK', 'https://t.me/crypto_exchange_support')
