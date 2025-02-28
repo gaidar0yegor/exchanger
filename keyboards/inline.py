@@ -119,11 +119,13 @@ def currency_selection_keyboard(currencies, currency_type):
     """Create keyboard with currency options based on type"""
     keyboard = InlineKeyboardMarkup()
     
-    for currency in currencies:
-        if currency[1] == currency_type:
-            keyboard.add(InlineKeyboardButton(currency[0], callback_data=f'currency_{currency[0]}'))
+    # Debug log
+    print(f"Creating keyboard for {currency_type} currencies: {currencies}")
     
-    keyboard.add(InlineKeyboardButton('⏪ Back', callback_data='menu'))
+    for currency in currencies:
+        keyboard.add(InlineKeyboardButton(currency[0], callback_data=f'currency_{currency[0]}'))
+    
+    keyboard.add(InlineKeyboardButton('⏪ Назад', callback_data='menu'))
     return keyboard
 
 def payment_method_keyboard(payment_methods):
