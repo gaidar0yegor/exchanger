@@ -8,7 +8,6 @@ from loader import dp, bot
 import handlers
 from utils.set_commands import set_default_commands
 from data.config import AUTHOR, VERSION
-from add_default_data import add_default_currencies, add_default_payment_methods
 
 # Configure logging
 logging.basicConfig(
@@ -54,11 +53,89 @@ async def on_startup(dispatcher):
             )
         """)
         
-        # Add default data
-        add_default_currencies(conn)
-        add_default_payment_methods(conn)
+        # Add default cryptocurrencies
+        crypto_currencies = [
+            ('Bitcoin (BTC)', 'crypto', '0.001', '10', 'The original cryptocurrency'),
+            ('Ethereum (ETH)', 'crypto', '0.01', '100', 'Smart contract platform'),
+            ('Tether (USDT)', 'crypto', '10', '10000', 'Stablecoin pegged to USD'),
+            ('BNB', 'crypto', '0.1', '100', 'Binance ecosystem token'),
+            ('XRP', 'crypto', '10', '10000', 'Fast and low-cost digital asset'),
+        ]
         
-        # Close connection
+        # Add default fiat currencies
+        fiat_currencies = [
+            ('USD', 'fiat', '10', '10000', 'US Dollar'),
+            ('EUR', 'fiat', '10', '10000', 'Euro'),
+            ('RUB', 'fiat', '1000', '1000000', 'Russian Ruble'),
+            ('GBP', 'fiat', '10', '10000', 'British Pound'),
+            ('JPY', 'fiat', '1000', '1000000', 'Japanese Yen'),
+        ]
+        
+        # Add cryptocurrencies
+        cursor = conn.cursor()
+        for currency in crypto_currencies:
+            try:
+                cursor.execute(
+                    'INSERT INTO currencies VALUES (?, ?, ?, ?, ?)',
+                    currency
+                )
+                logger.info(f"Added cryptocurrency: {currency[0]}")
+            except sqlite3.IntegrityError:
+                logger.info(f"Cryptocurrency already exists: {currency[0]}")
+        
+        # Add fiat currencies
+        for currency in fiat_currencies:
+            try:
+                cursor.execute(
+                    'INSERT INTO currencies VALUES (?, ?, ?, ?, ?)',
+                    currency
+                )
+                logger.info(f"Added fiat currency: {currency[0]}")
+            except sqlite3.IntegrityError:
+                logger.info(f"Fiat currency already exists: {currency[0]}")
+        
+        # Default crypto payment methods
+        crypto_methods = [
+            ('Bitcoin Address', 'crypto'),
+            ('Ethereum Address', 'crypto'),
+            ('USDT TRC20', 'crypto'),
+            ('USDT ERC20', 'crypto'),
+            ('BNB BEP20', 'crypto'),
+        ]
+        
+        # Default fiat payment methods
+        fiat_methods = [
+            ('Bank Transfer', 'fiat'),
+            ('Credit Card', 'fiat'),
+            ('PayPal', 'fiat'),
+            ('Revolut', 'fiat'),
+            ('Wise', 'fiat'),
+        ]
+        
+        # Add crypto payment methods
+        for method in crypto_methods:
+            try:
+                cursor.execute(
+                    'INSERT INTO payment_methods VALUES (?, ?)',
+                    method
+                )
+                logger.info(f"Added crypto payment method: {method[0]}")
+            except sqlite3.IntegrityError:
+                logger.info(f"Payment method already exists: {method[0]}")
+        
+        # Add fiat payment methods
+        for method in fiat_methods:
+            try:
+                cursor.execute(
+                    'INSERT INTO payment_methods VALUES (?, ?)',
+                    method
+                )
+                logger.info(f"Added fiat payment method: {method[0]}")
+            except sqlite3.IntegrityError:
+                logger.info(f"Payment method already exists: {method[0]}")
+        
+        # Commit changes and close connection
+        conn.commit()
         conn.close()
         
         logger.info("Default currencies and payment methods added")
