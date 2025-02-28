@@ -1,4 +1,5 @@
 import sqlite3
+import os
 from datetime import date, datetime
 import logging
 
@@ -7,8 +8,16 @@ logger = logging.getLogger(__name__)
 class Database:
     """Database service for the Crypto Exchange Bot"""
     
-    def __init__(self, db_path='data/database.db'):
+    def __init__(self, db_path=None):
         """Initialize the database connection"""
+        if db_path is None:
+            # Use an absolute path based on the location of this file
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            db_path = os.path.join(base_dir, 'data', 'database.db')
+            
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(db_path), exist_ok=True)
+            
         self.db_path = db_path
         self.connection = sqlite3.connect(self.db_path, check_same_thread=False)
         self.cursor = self.connection.cursor()
